@@ -8,7 +8,7 @@ const fetchTasks = async() => {
     return tasks;
 }
 
-const addTask = async() => {
+const addTask = async(event) => {
     event.preventDefault();
 
     const task = {title: inputTask.value}
@@ -67,8 +67,8 @@ const createElement = (tag, innerText = ``, innerHTML = ``) => {
 const createSelect = (value) => {
     const options = `
     <option value="pendente">pendente</option>
-    <option value="pendente">em andamento</option>
-    <option value="pendente">concluida</option>
+    <option value="em andamento">em andamento</option>
+    <option value="concluída">concluída</option>
     `;
 
     const select = createElement(`select`, ``, options); 
@@ -95,6 +95,23 @@ const createRow = (task) => {
     
     const editButton = createElement(`button`, ``, `<span class="material-symbols-outlined">edit</span>`);
     const deleteButton = createElement(`button`, ``, `<span class="material-symbols-outlined">delete</span>`);
+
+    const editForm = createElement(`form`);
+    const editInput = createElement(`input`);
+
+    editForm.addEventListener(`submit`, (event) => {
+        event.preventDefault();
+        updateTask({id, title: editInput.value, status});
+    })
+
+    editInput.value = title;
+
+    editForm.appendChild(editInput);
+
+    editButton.addEventListener(`click`, () =>{
+        tdTitle.innerText = ``;
+        tdTitle.appendChild(editForm);
+    })
 
     editButton.classList.add(`btn-action`);
     deleteButton.classList.add(`btn-action`);
